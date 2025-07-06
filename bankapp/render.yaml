@@ -4,10 +4,21 @@ services:
     env: java
     plan: free
     region: oregon
-    branch: main
+    rootDir: bankapp
     buildCommand: ./mvnw clean install
     startCommand: java -jar target/*.jar
     envVars:
       - key: JAVA_VERSION
         value: 17
-    rootDir: bankapp
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:mysql://localhost:3306/bankdb
+      - key: SPRING_DATASOURCE_USERNAME
+        value: root
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: admin
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: update
+      - key: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+        value: org.hibernate.dialect.MySQL8Dialect
+      - key: SPRING_JPA_SHOW_SQL
+        value: true
