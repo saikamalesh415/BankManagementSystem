@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: bankapp-backend
+    env: java
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: ./mvnw clean install
+    startCommand: java -jar target/*.jar
+    envVars:
+      - key: JAVA_VERSION
+        value: 17
+    rootDir: bankapp
