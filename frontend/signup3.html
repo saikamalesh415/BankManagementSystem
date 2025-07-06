@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Signup Step 3</title>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(to right, #2c3e50, #4ca1af);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .signup-container {
+        background: rgba(255, 255, 255, 0.06);
+        padding: 30px 40px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        width: 600px;
+        backdrop-filter: blur(10px);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 25px;
+      }
+
+      .form-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      label {
+        flex: 1;
+        text-align: right;
+        margin-right: 15px;
+        font-size: 16px;
+      }
+
+      input[type="text"],
+      select {
+        flex: 2;
+        padding: 8px;
+        border-radius: 6px;
+        border: none;
+        font-size: 15px;
+        background: #f2f2f2;
+        color: black;
+      }
+
+      .checkbox-group {
+        flex: 2;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        background: #f2f2f2;
+        padding: 10px;
+        border-radius: 6px;
+        color: black;
+      }
+
+      .checkbox-group label {
+        width: 48%;
+        text-align: left;
+        font-weight: normal;
+      }
+
+      input[type="text"]:focus,
+      select:focus {
+        outline: none;
+        background: white;
+        box-shadow: 0 0 5px #4caf50;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background-color: #4caf50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+
+      button:hover {
+        background-color: #43a047;
+      }
+
+      #confirmation {
+        margin-top: 20px;
+        display: none;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="signup-container">
+      <h2>Signup Step 3 – Account Details</h2>
+
+      <form id="signupForm3">
+        <div class="form-group">
+          <label for="formno">Form Number :</label>
+          <input type="text" name="formno" id="formno" readonly />
+        </div>
+
+        <div class="form-group">
+          <label for="accounttype">Account Type :</label>
+          <select name="accounttype" required>
+            <option value="">--Select--</option>
+            <option>Savings Account</option>
+            <option>Current Account</option>
+            <option>Salary Account</option>
+            <option>Student Account</option>
+            <option>Joint Account</option>
+            <option>NRE Account</option>
+            <option>NRO Account</option>
+            <option>Fixed Deposit (FD)</option>
+            <option>Recurring Deposit (RD)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Facility Type :</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="facility" value="ATM / Debit Card" /> ATM / Debit Card</label>
+            <label><input type="checkbox" name="facility" value="Cheque Book" /> Cheque Book</label>
+            <label><input type="checkbox" name="facility" value="Internet Banking" /> Internet Banking</label>
+            <label><input type="checkbox" name="facility" value="Mobile Banking" /> Mobile Banking</label>
+            <label><input type="checkbox" name="facility" value="Passbook" /> Passbook</label>
+            <label><input type="checkbox" name="facility" value="SMS Alerts" /> SMS Alerts</label>
+            <label><input type="checkbox" name="facility" value="Email Alerts" /> Email Alerts</label>
+            <label><input type="checkbox" name="facility" value="Nomination Facility" /> Nomination Facility</label>
+            <label><input type="checkbox" name="facility" value="Credit Card" /> Credit Card</label>
+          </div>
+        </div>
+
+        <button type="submit">Submit</button>
+      </form>
+
+      <div id="confirmation">
+        <h3>Signup Successful!</h3>
+        <p id="cardPinInfo"></p>
+        <p>Redirecting to login page in 5 seconds...</p>
+      </div>
+    </div>
+
+    <script>
+      window.onload = function () {
+        const formno = sessionStorage.getItem("formno");
+        if (!formno) {
+          alert("Form number missing. Redirecting to Step 1.");
+          window.location.href = "signup1.html";
+        } else {
+          document.getElementById("formno").value = formno;
+        }
+      };
+
+      document.getElementById("signupForm3").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const jsonData = {};
+        const facilities = [];
+
+        formData.forEach((value, key) => {
+          if (key === "facility") {
+            facilities.push(value);
+          } else {
+            jsonData[key] = value;
+          }
+        });
+
+        jsonData["facility"] = facilities.join(", ");
+
+        fetch("http://localhost:8081/api/signup/step3", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(jsonData),
+        })
+          .then((res) => res.text())
+          .then((data) => {
+            document.getElementById("signupForm3").style.display = "none";
+            document.getElementById("confirmation").style.display = "block";
+            document.getElementById("cardPinInfo").innerText = data;
+
+            sessionStorage.clear();
+            setTimeout(() => {
+              window.location.href = "login.html";
+            }, 5000);
+          })
+          .catch((err) => alert("Error: " + err));
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Transactions - Bank Dashboard</title>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(to right, #141e30, #243b55);
+        color: white;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .dashboard-container {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 40px 60px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        text-align: center;
+        width: 400px;
+        backdrop-filter: blur(8px);
+      }
+
+      h2 {
+        margin-bottom: 30px;
+      }
+
+      button {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 8px;
+        background-color: #4caf50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #43a047;
+      }
+    </style>
+
+    <script>
+      window.onload = function () {
+        if (
+          !sessionStorage.getItem("cardnumber") ||
+          !sessionStorage.getItem("pin")
+        ) {
+          window.location.href = "login.html";
+        }
+
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+          history.go(1);
+        };
+      };
+
+      function goTo(page) {
+        window.location.href = page;
+      }
+
+      function logout() {
+        sessionStorage.clear();
+        alert("Logged out!");
+        window.location.href = "login.html";
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="dashboard-container">
+      <h2>Welcome to Your Bank Dashboard</h2>
+      <button onclick="goTo('deposit.html')">Deposit</button>
+      <button onclick="goTo('withdraw.html')">Withdraw</button>
+      <button onclick="goTo('balance.html')">Balance Enquiry</button>
+      <button onclick="goTo('statement.html')">Mini Statement</button>
+      <button onclick="goTo('pinchange.html')">Change PIN</button>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </body>
+</html>

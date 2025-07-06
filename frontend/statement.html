@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mini Statement - Bank App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background: linear-gradient(to right, #141e30, #243b55);
+        color: #fff;
+        margin: 0;
+        padding: 0;
+      }
+
+      h2 {
+        margin-top: 60px;
+        margin-bottom: 20px;
+        font-size: 28px;
+      }
+
+      table {
+        margin: 0 auto 40px auto;
+        border-collapse: collapse;
+        width: 85%;
+        background-color: #ffffff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        color: #333;
+      }
+
+      th,
+      td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #ddd;
+        font-size: 16px;
+      }
+
+      th {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      tr:last-child td {
+        border-bottom: none;
+      }
+
+      tr:hover {
+        background-color: #f1f1f1;
+      }
+
+      @media (max-width: 768px) {
+        table,
+        tr,
+        td,
+        th {
+          font-size: 14px;
+        }
+      }
+    </style>
+    <script>
+      window.onload = function () {
+        if (
+          !sessionStorage.getItem("cardnumber") ||
+          !sessionStorage.getItem("pin")
+        ) {
+          window.location.href = "login.html";
+        }
+
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+          history.go(1);
+        };
+
+        fetchStatement();
+      };
+
+      function fetchStatement() {
+        const cardnumber = sessionStorage.getItem("cardnumber");
+        const pin = sessionStorage.getItem("pin");
+
+        fetch("http://localhost:8081/api/statement", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ cardnumber, pin }),
+        })
+          .then((res) => res.json())
+          .then((transactions) => {
+            const table = document.getElementById("statementTable");
+            transactions.forEach((tx) => {
+              const row = table.insertRow();
+              row.innerHTML = `
+                <td>${tx.date}</td>
+                <td>${tx.type}</td>
+                <td>₹ ${tx.amount}</td>
+                <td>₹ ${tx.balance}</td>
+              `;
+            });
+
+            sessionStorage.clear();
+            setTimeout(() => (window.location.href = "login.html"), 5000);
+          });
+      }
+    </script>
+  </head>
+  <body>
+    <h2>Mini Statement</h2>
+    <table id="statementTable">
+      <tr>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Balance</th>
+      </tr>
+    </table>
+  </body>
+</html>

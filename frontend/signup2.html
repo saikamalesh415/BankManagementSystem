@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Signup Step 2</title>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(to right, #243b55, #141e30);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .signup-container {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 30px 40px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        width: 600px;
+        backdrop-filter: blur(10px);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 25px;
+      }
+
+      .form-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      label {
+        flex: 1;
+        text-align: right;
+        margin-right: 15px;
+        font-size: 16px;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="date"],
+      select {
+        flex: 2;
+        padding: 8px;
+        border-radius: 6px;
+        border: none;
+        font-size: 15px;
+        background: #f2f2f2;
+      }
+
+      input[type="text"]:focus,
+      select:focus {
+        outline: none;
+        background: white;
+        box-shadow: 0 0 5px #4caf50;
+      }
+
+      .radio-group {
+        flex: 2;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background-color: #4caf50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+
+      button:hover {
+        background-color: #43a047;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="signup-container">
+      <h2>Signup Step 2 – Additional Details</h2>
+
+      <form id="signupForm2">
+        <div class="form-group">
+          <label for="formno">Form Number :</label>
+          <input type="text" name="formno" id="formno" readonly />
+        </div>
+
+        <div class="form-group">
+          <label for="religion">Religion :</label>
+          <select name="religion" required>
+            <option value="">--Select--</option>
+            <option>Hinduism</option>
+            <option>Islam</option>
+            <option>Christianity</option>
+            <option>Sikhism</option>
+            <option>Buddhism</option>
+            <option>Jainism</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="category">Category :</label>
+          <select name="category" required>
+            <option value="">--Select--</option>
+            <option>General</option>
+            <option>OBC</option>
+            <option>SC</option>
+            <option>ST</option>
+            <option>EWS</option>
+            <option>BC</option>
+            <option>MBC</option>
+            <option>BCD</option>
+            <option>OC</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="income">Income :</label>
+          <select name="income" required>
+            <option value="">--Select--</option>
+            <option>Below ₹1,00,000</option>
+            <option>₹1,00,001 – ₹5,00,000</option>
+            <option>₹5,00,001 – ₹10,00,000</option>
+            <option>₹10,00,001 – ₹25,00,000</option>
+            <option>Above ₹25,00,000</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="education">Education :</label>
+          <select name="education" required>
+            <option value="">--Select--</option>
+            <option>Graduate</option>
+            <option>Under Graduate</option>
+            <option>Post-Graduate</option>
+            <option>Doctorate / PhD</option>
+            <option>Professional</option>
+            <option>Others</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="occupation">Occupation :</label>
+          <select name="occupation" required>
+            <option value="">--Select--</option>
+            <option>Government</option>
+            <option>Private</option>
+            <option>Self-Employed - Professional</option>
+            <option>Self-Employed - Business</option>
+            <option>Agriculture</option>
+            <option>Student</option>
+            <option>Housewife / Homemaker</option>
+            <option>Retired</option>
+            <option>Defense Personnel</option>
+            <option>Others</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="pan">PAN :</label>
+          <input type="text" name="pan" />
+        </div>
+
+        <div class="form-group">
+          <label for="aadhar">Aadhar :</label>
+          <input type="text" name="aadhar" />
+        </div>
+
+        <div class="form-group">
+          <label>Senior Citizen :</label>
+          <div class="radio-group">
+            <label><input type="radio" name="seniorcitizen" value="Yes" required /> Yes</label>
+            <label><input type="radio" name="seniorcitizen" value="No" required /> No</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Existing Account :</label>
+          <div class="radio-group">
+            <label><input type="radio" name="existingaccount" value="Yes" required /> Yes</label>
+            <label><input type="radio" name="existingaccount" value="No" required /> No</label>
+          </div>
+        </div>
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <script>
+      window.onload = function () {
+        const formno = sessionStorage.getItem("formno");
+        if (!formno) {
+          alert("Form number missing. Redirecting to Step 1.");
+          window.location.href = "signup1.html";
+        } else {
+          document.getElementById("formno").value = formno;
+        }
+      };
+
+      document.getElementById("signupForm2").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const jsonData = {};
+        formData.forEach((value, key) => (jsonData[key] = value));
+
+        fetch("http://localhost:8081/api/signup/step2", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(jsonData),
+        })
+          .then((res) => res.text())
+          .then((data) => {
+            alert(data);
+            window.location.href = "signup3.html";
+          })
+          .catch((err) => alert("Error: " + err));
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Change PIN - Bank App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #141e30, #243b55);
+        color: white;
+        text-align: center;
+        padding-top: 60px;
+        margin: 0;
+      }
+
+      h2 {
+        margin-bottom: 30px;
+        font-size: 28px;
+      }
+
+      form {
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 40px;
+        border-radius: 12px;
+        display: inline-block;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+      }
+
+      input {
+        padding: 12px;
+        margin: 12px;
+        width: 280px;
+        border-radius: 6px;
+        border: none;
+        font-size: 16px;
+      }
+
+      input::placeholder {
+        color: #888;
+      }
+
+      button {
+        padding: 12px 28px;
+        margin-top: 20px;
+        border: none;
+        background-color: #4caf50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 6px;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
+
+    <script>
+      window.onload = function () {
+        if (
+          !sessionStorage.getItem("cardnumber") ||
+          !sessionStorage.getItem("pin")
+        ) {
+          window.location.href = "login.html";
+        }
+
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+          history.go(1);
+        };
+      };
+
+      function changePin(event) {
+        event.preventDefault();
+
+        const oldPin = document.getElementById("oldPin").value;
+        const newPin = document.getElementById("newPin").value;
+        const confirmPin = document.getElementById("confirmPin").value;
+
+        if (newPin !== confirmPin) {
+          alert("New PIN and Confirm PIN do not match.");
+          return;
+        }
+
+        const cardnumber = sessionStorage.getItem("cardnumber");
+
+        fetch("http://localhost:8081/api/changepin", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            cardnumber: cardnumber,
+            oldpin: oldPin,
+            newpin: newPin,
+          }),
+        })
+          .then((res) => res.text())
+          .then((data) => {
+            alert(data);
+            sessionStorage.clear();
+            window.location.href = "login.html";
+          });
+      }
+    </script>
+  </head>
+
+  <body>
+    <h2>Change Your PIN</h2>
+    <form onsubmit="changePin(event)">
+      <input type="password" id="oldPin" placeholder="Enter Old PIN" required /><br />
+      <input type="password" id="newPin" placeholder="Enter New PIN" required /><br />
+      <input type="password" id="confirmPin" placeholder="Confirm New PIN" required /><br />
+      <button type="submit">Change PIN</button>
+    </form>
+  </body>
+</html>

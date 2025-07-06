@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Signup Step 1</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(to right, #243b55, #141e30);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: white;
+      }
+
+      .signup-container {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 30px 40px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        width: 500px;
+        backdrop-filter: blur(10px);
+      }
+
+      .signup-container h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 26px;
+      }
+
+      .form-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        flex: 1;
+        font-size: 16px;
+        text-align: right;
+        margin-right: 15px;
+      }
+
+      .form-group input {
+        flex: 2;
+        padding: 8px;
+        border-radius: 6px;
+        border: none;
+        font-size: 15px;
+        background: #f2f2f2;
+      }
+
+      .form-group input:focus {
+        background: #ffffff;
+        outline: none;
+        box-shadow: 0 0 5px #4caf50;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background-color: #4caf50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 15px;
+      }
+
+      button:hover {
+        background-color: #43a047;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="signup-container">
+      <h2>Signup Step 1</h2>
+      <form id="signupForm1">
+        <div class="form-group">
+          <label for="name">Name :</label>
+          <input type="text" name="name" required />
+        </div>
+        <div class="form-group">
+          <label for="fname">Father's Name :</label>
+          <input type="text" name="fname" required />
+        </div>
+        <div class="form-group">
+          <label for="dob">Date of Birth :</label>
+          <input type="date" name="dob" required />
+        </div>
+        <div class="form-group">
+          <label for="gender">Gender :</label>
+          <input type="text" name="gender" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email :</label>
+          <input type="email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="marital">Marital Status :</label>
+          <input type="text" name="marital" />
+        </div>
+        <div class="form-group">
+          <label for="address">Address :</label>
+          <input type="text" name="address" />
+        </div>
+        <div class="form-group">
+          <label for="city">City :</label>
+          <input type="text" name="city" />
+        </div>
+        <div class="form-group">
+          <label for="pin">PIN Code :</label>
+          <input type="text" name="pin" />
+        </div>
+        <div class="form-group">
+          <label for="state">State :</label>
+          <input type="text" name="state" />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <script>
+      document.getElementById("signupForm1").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const jsonData = {};
+        formData.forEach((value, key) => (jsonData[key] = value));
+
+        fetch("http://localhost:8081/api/signup/step1", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(jsonData),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.status === "success") {
+              sessionStorage.setItem("formno", data.formno);
+              alert("Signup Step 1 complete.\nGenerated Form No: " + data.formno);
+              window.location.href = "signup2.html";
+            } else {
+              alert("Error: " + data.message);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            alert("An error occurred while saving your data. Please try again.");
+          });
+      });
+    </script>
+  </body>
+</html>

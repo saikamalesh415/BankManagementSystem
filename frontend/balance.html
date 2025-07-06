@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Balance Enquiry - Bank App</title>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #243b55;
+        margin-top: 100px;
+      }
+
+      .container {
+        background-color: 2c5364;
+        display: inline-block;
+        padding: 40px 50px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        color: black;
+        margin-bottom: 20px;
+      }
+
+      #balanceResult {
+        margin-top: 30px;
+        font-size: 22px;
+        font-weight: bold;
+        color: black;
+      }
+
+      button {
+        padding: 12px 25px;
+        font-size: 16px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        margin-top: 30px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
+
+    <script>
+      window.onload = function () {
+        const cardnumber = sessionStorage.getItem("cardnumber");
+        const pin = sessionStorage.getItem("pin");
+
+        if (!cardnumber || !pin) {
+          window.location.href = "login.html";
+          return;
+        }
+
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+          history.go(1);
+        };
+
+        fetch("http://localhost:8081/api/balance", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            cardnumber: cardnumber.trim(),
+            pin: pin.trim(),
+          }),
+        })
+          .then((res) => {
+            if (!res.ok) throw new Error("Network response was not ok");
+            return res.text();
+          })
+          .then((data) => {
+            document.getElementById("balanceResult").innerText = isNaN(data)
+              ? "Failed to retrieve balance. Please try again."
+              : "Your Balance: ₹ " + data;
+          })
+          .catch((err) => {
+            document.getElementById("balanceResult").innerText =
+              "Error fetching balance.";
+            console.error("Fetch error:", err);
+          });
+      };
+
+      function exitToLogin() {
+        sessionStorage.clear();
+        window.location.href = "login.html";
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Balance Enquiry</h2>
+      <div id="balanceResult">Loading your balance...</div>
+      <button onclick="exitToLogin()">Exit</button>
+    </div>
+  </body>
+</html>
