@@ -1,5 +1,5 @@
 # Stage 1 — build with Maven
-FROM maven:3.9.4-eclipse-temurin-22 AS build
+FROM maven:3.9.4-eclipse-temurin-17 AS build
 WORKDIR /app
 
 # Copy just the files needed to build (helps cache)
@@ -13,7 +13,7 @@ COPY src ./src
 RUN mvn -B -DskipTests package
 
 # Stage 2 — run with a small JRE
-FROM eclipse-temurin:22-jre-jammy
+FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 ARG JAR_FILE=target/*.jar
 COPY --from=build /app/target/*.jar app.jar
