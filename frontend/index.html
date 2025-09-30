@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bank Login</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(to right, #243b55, #141e30);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: #fff;
+      }
+
+      .login-container {
+        background-color: #ffffff10;
+        padding: 40px 30px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        width: 350px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+      }
+
+      .login-container h2 {
+        margin-bottom: 30px;
+        font-size: 28px;
+        color: #ffffff;
+        letter-spacing: 1px;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 8px;
+        background-color: #e0e0e0;
+        font-size: 15px;
+        transition: background 0.3s;
+      }
+
+      input:focus {
+        background-color: #fff;
+        outline: none;
+        box-shadow: 0 0 4px #4caf50;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background-color: #4caf50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 15px;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      .signup-link {
+        margin-top: 20px;
+        color: #ccc;
+        font-size: 14px;
+      }
+
+      .signup-link button {
+        background-color: #2196f3;
+        margin-top: 10px;
+      }
+
+      .signup-link button:hover {
+        background-color: #1976d2;
+      }
+    </style>
+
+    <script>
+      // Prevent back button access if already logged out
+      if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+      }
+
+      window.addEventListener("pageshow", function (event) {
+        if (
+          event.persisted ||
+          (window.performance && window.performance.navigation.type === 2)
+        ) {
+          sessionStorage.clear(); // Clear credentials if back is pressed
+          window.location.href = "login.html";
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div class="login-container">
+      <h2>Welcome to Royal Bank</h2>
+      <form id="loginForm">
+        <input
+          type="text"
+          name="cardnumber"
+          placeholder="Card Number"
+          required
+        />
+        <input type="password" name="pin" placeholder="PIN" required />
+        <button type="submit">Login</button>
+      </form>
+
+      <div class="signup-link">
+        <p>Don't have an account?</p>
+        <button onclick="redirectToSignup()">Sign Up</button>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const formData = new FormData(this);
+          const jsonData = {};
+          formData.forEach((value, key) => (jsonData[key] = value));
+
+          fetch("https://bankmanagementsystem-961b.onrender.com/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(jsonData),
+          })
+            .then((res) => res.text())
+            .then((data) => {
+              alert(data);
+              if (data.includes("Successful")) {
+                sessionStorage.setItem("isLoggedIn", "true");
+                sessionStorage.setItem("cardnumber", jsonData.cardnumber);
+                sessionStorage.setItem("pin", jsonData.pin);
+                window.location.href = "transactions.html";
+              }
+            });
+        });
+
+      function redirectToSignup() {
+        window.location.href = "signup1.html";
+      }
+    </script>
+  </body>
+</html>
