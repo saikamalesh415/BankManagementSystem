@@ -6,7 +6,7 @@
     <style>
       body {
         margin: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background: linear-gradient(to right, #243b55, #141e30);
         display: flex;
         justify-content: center;
@@ -109,12 +109,7 @@
           placeholder="Card Number"
           required
         />
-        <input
-          type="password"
-          name="pin"
-          placeholder="PIN"
-          required
-        />
+        <input type="password" name="pin" placeholder="PIN" required />
         <button type="submit">Login</button>
       </form>
 
@@ -133,7 +128,7 @@
           const jsonData = {};
           formData.forEach((value, key) => (jsonData[key] = value));
 
-          fetch("http://localhost:8081/api/login", {
+          fetch("https://bankmanagementsystem-961b.onrender.com/api/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(jsonData),
