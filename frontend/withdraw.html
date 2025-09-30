@@ -78,7 +78,7 @@
         const pin = sessionStorage.getItem("pin");
         const amount = document.getElementById("amount").value;
 
-        fetch("http://localhost:8081/api/withdraw", {
+        fetch("http://bankmanagementsystem-961b.onrender.com/api/withdraw", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

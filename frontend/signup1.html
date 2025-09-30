@@ -131,7 +131,7 @@
         const jsonData = {};
         formData.forEach((value, key) => (jsonData[key] = value));
 
-        fetch("http://localhost:8081/api/signup/step1", {
+        fetch("http://bankmanagementsystem-961b.onrender.com/api/signup/step1", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(jsonData),
