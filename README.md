@@ -98,6 +98,20 @@ http://localhost:8081
 ```
 ---
 
+## 📸 Screenshots
+### Login page:
+<img width="1905" height="860" alt="image" src="https://github.com/user-attachments/assets/c097f145-d989-486a-a575-046246590e32" />
+### Signup Step1:
+<img width="1909" height="861" alt="image" src="https://github.com/user-attachments/assets/8b304e37-2a35-40e1-8141-61b264b59b68" />
+### Signup Step2:
+<img width="1909" height="862" alt="image" src="https://github.com/user-attachments/assets/1468d373-917e-41e9-a284-48d33dd20123" />
+### Signup Step3:
+<img width="1909" height="864" alt="image" src="https://github.com/user-attachments/assets/251b9332-7117-4a73-b3f8-84872f6bb322" />
+### Transaction:
+<img width="1910" height="851" alt="image" src="https://github.com/user-attachments/assets/c1281363-6772-4693-84b5-362545ca1047" />
+
+---
+
 ## 💾 Database Configuration
 
 The project uses MySQL (Clever Cloud).
