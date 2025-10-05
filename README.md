@@ -134,25 +134,86 @@ Database tables include:
 
 ## 🌍 Deployment Summary
 
-Service :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                    	Platform :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	              Description :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	                                    Status :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
-Backend	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      Render	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;               Spring Boot API connected with MySQL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	                                                                                                                                                                                                                                                                                      ✅ Live    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
-Frontend &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                   	Netlify &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	                   Static website (HTML/CSS/JS)	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		                                                                                                                                                                                                                              ✅ Live     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
-Database &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                     Clever Cloud	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                                              MySQL cloud-hosted database  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	                                                                                                                                                                                                                                                           ✅ Connected  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+| Service           | Platform   | Description             | Status       |
+| ----------------- | ---------- | ----------------------- | ------------ |
+| **Backend**       | Render     | Spring Boot API connected with MySQL     | ✅ Live       |
+| **Frontend**      | Netlify    | Static website (HTML/CSS/JS)	 | ✅ Live       |
+| **Database** | Clever Cloud | MySQL cloud-hosted database | ✅ Connected |
+
+---
+
+## ⚙️ Local Setup
+
+To run the Bank Management System locally on your machine:
+
+### 🧩 Prerequisites
+
+Java 17 or above (you used Java 22)<br>
+MySQL Server installed and running<br>
+Maven installed and added to PATH<br>
+
+🖥️ 1️⃣ Clone the repository 
+````
+git clone https://github.com/saikamalesh415/BankManagementSystem.git
+````
+📂 2️⃣ Navigate into the backend folder
+```
+cd BankManagementSystem/bankapp
+```
+⚙️ 3️⃣ Configure the MySQL Database
+```
+Open application.properties inside src/main/resources/
+```
+Update your MySQL credentials:
+```
+spring.datasource.url=jdbc:mysql://localhost:3306/bankdb
+spring.datasource.username=your_username
+spring.datasource.password=your_password
+```
+
+Make sure the database bankdb exists in MySQL:
+```
+CREATE DATABASE bankdb;
+```
+🧱 4️⃣ Build and run the Spring Boot application
+```
+mvn spring-boot:run
+```
+
+Once started, the backend will run at: 
+👉 http://localhost:8081 <br>
+
+🌐 5️⃣ Run the Frontend
+
+If your frontend files are stored in /frontend:
+```
+cd ../frontend
+```
+
+Then open the signup1.html or login.html file directly in your browser
+(or use Live Server in VS Code). <br>
+
+✅ 6️⃣ Access the Application
+
+Frontend (HTML) → interacts with <br>
+Backend API → http://localhost:8081/api/ <br>
+Database → MySQL <br>
 
 ---
 
 ## 🧰 Key Endpoints
-```
-Method	Endpoint	Description
-POST	/api/signup/step1	          Register step 1 personal details
-POST	/api/signup/step2	          Register step 2 additional details
-POST	/api/signup/step3	          Register step 3 account details
-POST	/api/login	                   Login using card number and PIN
-POST	/api/deposit	              Deposit money
-POST	/api/withdraw	              Withdraw money
-GET	  /api/balance/{formno}	          Check balance
-GET	  /api/transactions/{formno}	  View transactions
-```
+ 
+| Method | Endpoint                     | Description                        |
+| ------ | ---------------------------- | ---------------------------------- |
+| `POST` | `/api/signup/step1`          | Register step 1 personal details   |
+| `POST` | `/api/signup/step2`          | Register step 2 additional details |
+| `POST` | `/api/signup/step3`          | Register step 3 account details    |
+| `POST` | `/api/login`                 | Login using card number and PIN    |
+| `POST` | `/api/deposit`               | Deposit money                      |
+| `POST` | `/api/withdraw`              | Withdraw money                     |
+| `GET`  | `/api/balance/{formno}`      | Check balance                      |
+| `GET`  | `/api/transactions/{formno}` | View transactions                  |
+
 
 ---
 
